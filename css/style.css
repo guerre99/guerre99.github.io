@@ -153,18 +153,13 @@ nav > ul > li > a {
     width: 40%;
     padding: 5%;
 }
-
-.piloto h2 {
-    font-size: 1.56vw;
-}
-
 .piloto p {
     margin: 0.65vw 0;
 }
 
 /* Estilos para imágenes de pilotos */
 .piloto > img {
-    width: 50%;
+    width: 90%;
 }
 
 /* Estilos para listas en la sección de requisitos y superlicencia */
@@ -216,11 +211,17 @@ textarea {
     * {
         font-size: 1.2rem;
     }
+    .piloto > img {
+    width: 100%;
+    }
 }
 
 @media only screen and (min-width: 1000px) {
     * {
         font-size: 1.1rem;
+    }
+    .piloto > img {
+        width: 75%;
     }
 }
 /* https://coolors.co/0b090a-161a1d-660708-a4161a-ba181b-e5383b-b1a7a6-d3d3d3-f5f3f4-ffffff /*
