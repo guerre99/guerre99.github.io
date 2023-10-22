@@ -2,6 +2,7 @@ const Game = {
 	ctx: undefined,
 	canvasW: undefined,
 	canvasH: undefined,
+    scoreboard: ScoreBoard,
 	fps: 60,
     keys : {
         jump: 'Space',
@@ -17,13 +18,23 @@ const Game = {
 
 		this.canvasW = canvas.width = innerWidth
 		this.canvasH = canvas.height = innerHeight
+
+        this.bso = new Audio('./assets/Bowser Cup.mp3')
+
         this.reset()
 	},
 
     reset: function () {
 
+        this.bso.pause()
+
         this.background = new Background(this.ctx, this.canvasW, this.canvasH)
 
+        this.bso.play()
+
+        this.scoreboard.init(this.ctx)
+
+        this.score = 10000
 
         this.niveles = [
 
@@ -72,16 +83,15 @@ const Game = {
 
 		this.frameCounter = 0
         this.generador = 100
-        this.score = 10000
+        
 
 		this.intervalId = setInterval(() => {
 			
 
 			this.frameCounter++
 
-			this.score -= 1
-            console.log(this.score)
-            if(this.score == 0){
+			    this.score -= 1
+            if(this.score === 0 || (this.mario.isDying && this.mario.img.frameIndex === 3)){
                 this.gameOver()
             }
 
@@ -106,6 +116,7 @@ const Game = {
             escalera.draw()
         })
         this.mario.draw(this.frameCounter)
+        this.scoreboard.update(this.score)
         this.barril.forEach((barril) => {
             barril.draw(this.frameCounter)
             if (
@@ -131,7 +142,10 @@ const Game = {
                 barril.y < this.mario.y + this.mario.h &&
                 barril.x + barril.w*0.5 > this.mario.x &&
                 barril.x < this.mario.x + this.mario.w*0.5
-            if(isCollisionMarioBarril) this.gameOver()
+            if(isCollisionMarioBarril) {
+                this.mario.die()
+                if(this.mario.isDying && this.mario.img.frameIndex === 3) this.gameOver()
+            }
         })
 
         if(!this.niveles.some((nivel)=>{
@@ -192,6 +206,7 @@ const Game = {
             barril.move()
         })
         this.mario.move()
+        
     },
 
     generateBarril: function () {
@@ -203,6 +218,10 @@ const Game = {
 		// para el intervalo que implementa el loop de animación
 		clearInterval(this.intervalId)
 
+        this.mario.die()
+
+        this.bso.pause()
+
 		if (confirm('GAME OVER! ¿Volver a jugar?')) {
 			this.reset()
 		}
@@ -211,6 +230,8 @@ const Game = {
     gameWon: function () {
 		// para el intervalo que implementa el loop de animación
 		clearInterval(this.intervalId)
+
+        this.bso.pause()
 
 		if (confirm(`Enhorabuena! Tu score es de ${this.score} puntos. ¿Quieres volver a jugar?`)) {
 			this.reset()

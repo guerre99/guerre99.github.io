@@ -19,7 +19,7 @@ class Player {
         this.vy = 0
 		this.gravity = 0.3
 
-
+        this.isDying = false
         this.actions = {
 			jump: false,
 			right: false,
@@ -34,6 +34,7 @@ class Player {
 
     setControls(){
         document.addEventListener('keydown', (event) => {
+            if(!this.isDying){
 			switch (event.code) {
 				case this.keys.jump:
                     if(!this.actions.jump){
@@ -75,9 +76,10 @@ class Player {
 				    break
 			}
         
-		})
+		}})
 
         document.addEventListener('keyup', (event) => {
+            if(!this.isDying){
 			switch (event.code) {
 
 				case this.keys.right:
@@ -121,7 +123,7 @@ class Player {
                  
 					break
 			}
-        })
+        }})
     }
     move() {
         if(this.actions.enEscalera && this.actions.down){
@@ -143,8 +145,7 @@ class Player {
 	}
 
     draw(frameCounter){
-        // this.ctx.fillRect(this.x,this.y,this.w,this.h)
-        // this.ctx.fillStyle = 'white'
+
         this.ctx.drawImage(
             this.img,
             this.img.frameIndex * (this.img.width / this.img.frames),
@@ -164,8 +165,24 @@ class Player {
 			this.img.frameIndex++
 
 			if (this.img.frameIndex >= this.img.frames) {
-				this.img.frameIndex = 0
+				
+				if (this.actions.dying) {
+					this.img.frameIndex = 0
+					this.actions.dead = true
+					
+					
+				} else {this.img.frameIndex = 0
+				}
+				
 			}
+
 		}
 	}
+
+    die(){
+        this.img.src = 'assets/dead.png'
+        this.img.frameIndex = 0
+        this.img.frames = 4
+        this.isDying = true
+    }
 }
