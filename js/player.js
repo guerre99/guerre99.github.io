@@ -5,7 +5,7 @@ class Player {
         this.canvasH = canvasH
         this.keys = keys
         this.x = this.canvasW*0.05
-        this.y = this.canvasH*0.3 //0.9 
+        this.y = this.canvasH*0.9 
         this.y0
         this.w = 36
         this.h = 24

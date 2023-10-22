@@ -131,7 +131,7 @@ const Game = {
                 barril.y < this.mario.y + this.mario.h &&
                 barril.x + barril.w*0.5 > this.mario.x &&
                 barril.x < this.mario.x + this.mario.w*0.5
-            // if(isCollisionMarioBarril) this.gameOver()
+            if(isCollisionMarioBarril) this.gameOver()
         })
 
         if(!this.niveles.some((nivel)=>{
