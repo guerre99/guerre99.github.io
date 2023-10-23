@@ -126,22 +126,27 @@ class Player {
         }})
     }
     move() {
-        if(this.actions.enEscalera && this.actions.down){
-           this.y += 2
-        }
-        else if(this.actions.enEscalera && this.actions.up){
-            this.y -= 2
-        }
-        else if (this.actions.jump) {
-            this.vy += this.gravity 
-            this.y += this.vy
-        }
-        else {
-            this.vy = 0
-        }
+        if(this.x>= 0 && this.x + this.h <= this.canvasW && this.y >= 0 && this.y +this.h <= this.canvasH){
+            if(this.actions.enEscalera && this.actions.down){
+            this.y += 2
+            }
+            else if(this.actions.enEscalera && this.actions.up){
+                this.y -= 2
+            }
+            else if (this.actions.jump) {
+                this.vy += this.gravity 
+                this.y += this.vy
+            }
+            else {
+                this.vy = 0
+            }
 
-        if(this.actions.right) this.x += this.vx
-        else if (this.actions.left) this.x -= this.vx
+            if(this.actions.right) this.x += this.vx
+            else if (this.actions.left) this.x -= this.vx
+        }else if(this.x < 0)this.x = 0
+        else if(this.x + this.w > this.canvasW) this.x = this.canvasW - this.w
+        else if(this.y < 0) this.y = 0
+        else if(this.y +this.h > this.canvasH) this.y = this.canvasH - this.h
 	}
 
     draw(frameCounter){
